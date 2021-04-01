@@ -17,19 +17,9 @@ fn read_into_vec(filename: &String) -> Vec<u8> {
     buf
 }
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    if args.len() < 2 {
-        println!("Usage: zero-inversion-compression <filename>");
-        return;
-    }
-
-    let input_file = &args[1];
-    let data = read_into_vec(input_file);
+fn compress(data: &Vec<u8>) -> Vec<u8> {
     let mut target = Vec::new();
     let mut writer = BitWriter::endian(&mut target, BigEndian);
-
     let mut cursor = Cursor::new(&data);
     {
         let mut reader = BitReader::endian(&mut cursor, BigEndian);
@@ -46,6 +36,27 @@ fn main() {
             writer.write_bit(true).unwrap();
         }
     }
+    target
+}
+
+fn invert(data: &mut Vec<u8>) {
+    for i in data {
+        *i = !*i;
+    }
+}
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() < 2 {
+        println!("Usage: zero-inversion-compression <filename>");
+        return;
+    }
+
+    let input_file = &args[1];
+    let data = read_into_vec(input_file);
+    let mut target = compress(&data);
+    invert(&mut target);
 
     println!("{:?}", target);
 
