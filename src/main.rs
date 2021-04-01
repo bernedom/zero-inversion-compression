@@ -1,4 +1,5 @@
 use std::env;
+use std::fs;
 use std::fs::File;
 use std::io::Read;
 
@@ -22,5 +23,13 @@ fn main() {
     }
 
     let input_file = &args[1];
-    let mut data  = read_into_vec(input_file);
+    let data = read_into_vec(input_file);
+    let mut target = Vec::new();
+
+    for byte in data {
+        target.push(byte);
+    }
+
+    let output_file = input_file.to_owned() + ".zic";
+    fs::write(output_file, target).unwrap();
 }
