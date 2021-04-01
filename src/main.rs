@@ -77,7 +77,7 @@ fn main() {
     // @todo move percentage calculation algorithm into it's own crate and make it open source
     // @todo make the output more colorful for marketing purposes
     println!(
-        "Compressed file '{}' from {} bytes to '{}' ({} bytes) ({}% compression rate)",
+        "Compressed file '{}' from {} bytes to '{}' ({} bytes)\n({}% compression rate)",
         input_file,
         data.len(),
         output_file,

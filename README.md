@@ -10,7 +10,8 @@ cargo run README.md
 >    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
 >     Running `target/debug/zero-inversion-compression README.md`
 
-Compressed file 'README.md' from 1390 bytes to 'README.md.zic' (0 bytes) (100% compression rate)
+Compressed file 'README.md' from 1390 bytes to 'README.md.zic' (0 bytes) 
+(100% compression rate)
 
 ```
 
