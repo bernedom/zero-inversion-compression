@@ -11,4 +11,5 @@ Files are represented in binary form as a series of 0 and 1. As 0 has no value, 
 
 * Running the two compression runs in parallel
 * Evening out the hamming weight of the file before running the algorithm
+* Compress the two loops into one by inverting the bits in place
 * Apply the [NGGYU-Algorithm](https://www.youtube.com/watch?v=dQw4w9WgXcQ) for sanitizing the input.

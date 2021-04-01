@@ -4,7 +4,7 @@ use std::fs;
 use std::fs::File;
 use std::io::{Cursor, Read};
 
-use bitstream_io::{BigEndian, BitRead, BitReader};
+use bitstream_io::{BigEndian, BitRead, BitReader, BitWrite, BitWriter};
 
 fn read_into_vec(filename: &String) -> Vec<u8> {
     let mut f = File::open(&filename).expect(&format!("File {} not found", filename));
@@ -28,18 +28,26 @@ fn main() {
     let input_file = &args[1];
     let data = read_into_vec(input_file);
     let mut target = Vec::new();
+    let mut writer = BitWriter::endian(&mut target, BigEndian);
 
     let mut cursor = Cursor::new(&data);
     {
         let mut reader = BitReader::endian(&mut cursor, BigEndian);
+        let mut bits_written = 0;
         for _i in 0..data.len() * 8 {
             let v: bool = reader.read_bit().unwrap();
+            if v {
+                writer.write_bit(v).unwrap();
+                bits_written += 1;
+            }
+        }
+        // pad up to a full byte
+        for _i in 0..8 - bits_written % 8 {
+            writer.write_bit(true).unwrap();
         }
     }
 
-    for byte in data {
-        target.push(byte);
-    }
+    println!("{:?}", target);
 
     let output_file = input_file.to_owned() + ".zic";
     fs::write(output_file, target).unwrap();
