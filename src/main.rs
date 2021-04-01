@@ -74,12 +74,15 @@ fn main() {
     let target = compress(&target);
 
     let output_file = input_file.to_owned() + ".zic";
+    // @todo move percentage calculation algorithm into it's own crate and make it open source
+    // @todo make the output more colorful for marketing purposes
     println!(
-        "Compressed file '{}' from {} bytes to {} bytes in '{}'",
+        "Compressed file '{}' from {} bytes to '{}' ({} bytes) ({}% compression rate)",
         input_file,
         data.len(),
+        output_file,
         target.len(),
-        output_file
+        100.0 - (target.len() as f32 / data.len() as f32 * 100.0)
     );
     fs::write(output_file, target).unwrap();
 }
